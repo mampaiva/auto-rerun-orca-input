@@ -1,2 +1,21 @@
 #!/bin/bash
 
+#--------------------start-block replace the the original XYZ coordinates of input by the 6th vibrational image from v006.xyz file ---------------------------
+
+input_name=ga-w18-1-wb97xd3-freq
+
+sed -n '1,/*/p' $input_name.inp > $input_name-v2.inp	#coping the command block of ORCA input
+
+read num_of_atoms <$input_name.out.v006.xyz		
+
+num_of_atoms=$[num_of_atoms+2]
+
+crop_start=$[num_of_atoms*5+3]
+crop_end=$[num_of_atoms*6]
+
+sed -n "$crop_start,$crop_end p" $input_name.out.v006.xyz | awk '{print $1, $2, $3, $4}' >> $input_name-v2.inp 			#coping the xyz coordinates of 6th to new input 
+
+echo "*" >> $input_name-v2.inp 
+
+exit 0
+#--------------------end-block replace the the original XYZ coordinates of input by the 6th vibrational image from v006.xyz file ---------------------------
