@@ -4,7 +4,9 @@
 
 input_name=`echo $1 | awk -F '[.]' '{print $1}'`
 
-sed -n '1,/*/p' $input_name.inp > $input_name.inp	#coping the command block of ORCA input
+sed -n '1,/*/p' $input_name.inp > $input_name-tmp.inp	#coping the command block of ORCA input
+
+mv $input_name-tmp.inp $input_name.inp
 
 read num_of_atoms <$input_name.out.v006.xyz		
 
