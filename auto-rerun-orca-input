@@ -1,8 +1,21 @@
 #!/bin/bash
 
-#--------------------start-block replace the original XYZ coordinates of input by the 6th vibrational image from v006.xyz file ---------------------------
-
 input_name=$(echo "$1" | awk -F '[.]' '{print $1}')
+orcapath=/home/mateus/orca503
+
+
+nohup $orcapath/orca "$input_name".inp >& "$input_name".out
+
+if grep -q "imaginary"  ga-w18-1-wb97xd3-freq.inp
+then
+
+while grep -q "imaginary" ga-w18-1-wb97xd3-freq.out
+do
+
+grep "imaginary" "$input_name".out  >> freq-i-history.dat
+$orcapath/orca_pltvib "$input_name".hess 6
+
+#--------------------start-block replace the original XYZ coordinates of input by the 6th vibrational image from v006.xyz file ---------------------------
 
 sed -n '1,/*/p' "$input_name".inp > "$input_name"-tmp.inp	#coping the command block of ORCA input
 
@@ -21,5 +34,10 @@ sed -n "$crop_start,$crop_end p" "$xyz_name" | awk '{printf "%s %15s %15s %15s\n
 
 echo "*" >> "$input_name".inp 
 
-exit 0
 #--------------------end-block replace the original XYZ coordinates of input by the 6th vibrational image from v006.xyz file ---------------------------
+
+nohup $orcapath/orca "$input_name".inp >& "$input_name".out
+done
+else 
+fi 
+exit 0
