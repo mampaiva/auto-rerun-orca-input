@@ -10,7 +10,7 @@ while grep -q "imaginary" "$input_name".out
 do
 
 grep "imaginary" "$input_name".out  >> freq-i-history.dat
-cp  "$input_name".out "$input_name"old.out
+cp  "$input_name".out "$input_name"-old.out
 $orcapath/orca_pltvib "$input_name".hess 6
 
 #--------------------start-block replace the original XYZ coordinates of input by the 6th vibrational image from v006.xyz file ---------------------------
