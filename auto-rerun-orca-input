@@ -9,7 +9,7 @@ nohup $orcapath/orca "$input_name".inp >& "$input_name".out
 while grep -q "imaginary" "$input_name".out
 do
 
-grep "imaginary" "$input_name".out  >> freq-i-history.dat
+grep "imaginary" "$input_name".out  >> "$input_name"-ifreq-history.dat
 cp  "$input_name".out "$input_name"-old.out
 $orcapath/orca_pltvib "$input_name".hess 6
 
