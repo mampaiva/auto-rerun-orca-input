@@ -1,0 +1,28 @@
+set term postscript color enhanced "Helvetica" 20
+
+brick="#ca0000"
+myblue="#5176ff"
+
+set pointsize 1.4 
+set key Left reverse
+
+set xtics nomirror
+set ytics nomirror
+set mxtics 2
+set mytics 1
+
+set ylabel "{/Helvetica-Bold=24 USED RAM/bytes}"
+set zlabel "{/Helvetica-Bold=24 O/ang}"
+set format x "%.1s*10^{%T}"
+set format y "%.0s*10^{%T}"
+
+set xrange[*:*]
+set yrange[*:*]
+
+set output "ram.ps"
+set key at graph 0.95, graph 0.35 vertical maxrows 7
+set xlabel "time/10s"
+set label 1  "" at graph 0.56, graph 0.25
+
+
+plot   "ram.dat" index 0 u ($0):3 w l lw 2 lc rgb "black" ti ""
