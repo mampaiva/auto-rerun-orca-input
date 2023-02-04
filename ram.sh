@@ -1,7 +1,7 @@
 #!/bin/bash
 x=1
 free  > ram.dat
-while [ $x -le 2160 ]
+while [ $x -le 8640 ]
 do
   free  | grep "Mem" >> ram.dat
   x=$(( $x + 1 ))
