@@ -1,4 +1,4 @@
-# auto-rerun-orca-input
+# auto-rerun-freq-orca-input
 automation of resubmission of ORCA calculations with problems of imaginary frequencies.
 
 to use just run the script following the name of the input. Example:
