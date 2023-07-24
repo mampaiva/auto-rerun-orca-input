@@ -10,16 +10,31 @@ while grep "7:" "$input_name".out | grep -q "imaginary"
 do
 
 grep "imaginary" "$input_name".out  >> "$input_name"-ifreq-history.dat
-cp  "$input_name".out "$input_name"-old.out
-$orcapath/orca_pltvib "$input_name".hess 6
 
-#--------------------start-block replace the original XYZ coordinates of input by the 6th vibrational image from v006.xyz file ---------------------------
+if [ ! -e "$input_name"-old.out ]; then    # checks if the file "$input_name"-old.out already exists.
+    cp "$input_name".out "$input_name"-old.out
+else
+suffix=0
+new_name="$input_name"-old.out
+
+while [ -e "$new_name" ]; do    #the suffix value starts at 0. If the "$input_name"-old.out file already exists, it increments the suffix value by 1 and checks again. This will continue until a filename that does not exist is found.
+    let "suffix++"
+    new_name="$input_name"-old"$suffix".out
+done
+
+cp "$input_name".out "$new_name"
+
+fi
+
+$orcapath/orca_pltvib "$input_name".hess 7
+
+#--------------------start-block replace the original XYZ coordinates of input by the 6th vibrational image from v007.xyz file ---------------------------
 
 sed -n '1,/*/p' "$input_name".inp > "$input_name"-tmp.inp	#coping the command block of ORCA input
 
 mv "$input_name"-tmp.inp "$input_name".inp
 
-xyz_name=$(ls "$input_name".*.v006.xyz)
+xyz_name=$(ls "$input_name".*.v007.xyz)
 
 num_of_atoms=$(head -1 "$xyz_name")
 
